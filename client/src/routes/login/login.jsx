@@ -1,14 +1,14 @@
+import { useContext, useState } from "react";
 import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import apiRequest from "../../../../api/lib/apiRequest.js";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import apiRequest from "../../lib/apiRequest";
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { updateUser } = useContext(AuthContext);
+  const {updateUser} = useContext(AuthContext)
 
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ function Login() {
     setIsLoading(true);
     setError("");
     const formData = new FormData(e.target);
+
     const username = formData.get("username");
     const password = formData.get("password");
 
@@ -26,17 +27,12 @@ function Login() {
         password,
       });
 
-      updateUser(res.data);
+      updateUser(res.data)
 
-      setIsLoading(false);
       navigate("/");
     } catch (err) {
-      console.log(err);
-      if (err.response) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred while trying to register");
-      }
+      setError(err.response.data.message);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -53,9 +49,14 @@ function Login() {
             type="text"
             placeholder="Username"
           />
-          <input name="password" type="password" placeholder="Password" />
+          <input
+            name="password"
+            type="password"
+            required
+            placeholder="Password"
+          />
           <button disabled={isLoading}>Login</button>
-          {error && <span className="error">{error}</span>}
+          {error && <span>{error}</span>}
           <Link to="/register">{"Don't"} you have an account?</Link>
         </form>
       </div>

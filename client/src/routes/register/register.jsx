@@ -2,7 +2,7 @@ import "./register.scss";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
-import apiRequest from "../../../../api/lib/apiRequest";
+import apiRequest from "../../lib/apiRequest";
 
 function Register() {
   const [error, setError] = useState("");
@@ -12,8 +12,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("")
     setIsLoading(true);
     const formData = new FormData(e.target);
+
     const username = formData.get("username");
     const email = formData.get("email");
     const password = formData.get("password");
@@ -24,20 +26,16 @@ function Register() {
         email,
         password,
       });
+
       navigate("/login");
     } catch (err) {
-      console.log(err);
-      if (err.response) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred while trying to register");
-      }
+      setError(err.response.data.message);
     } finally {
       setIsLoading(false);
     }
   };
   return (
-    <div className="register">
+    <div className="registerPage">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h1>Create an Account</h1>
@@ -45,7 +43,7 @@ function Register() {
           <input name="email" type="text" placeholder="Email" />
           <input name="password" type="password" placeholder="Password" />
           <button disabled={isLoading}>Register</button>
-          {error && <span className="error">{error}</span>}
+          {error && <span>{error}</span>}
           <Link to="/login">Do you have an account?</Link>
         </form>
       </div>

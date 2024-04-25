@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./newPostPage.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import apiRequest from "../../lib/apiRequest.js";
-import UploadWidget from "../../components/uploadWidget/UplaodWidget.jsx";
+import apiRequest from "../../lib/apiRequest";
+import UploadWidget from "../../components/uploadWidget/UploadWidget";
 import { useNavigate } from "react-router-dom";
 
 function NewPostPage() {
@@ -11,19 +11,19 @@ function NewPostPage() {
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
-    console.log(inputs);
 
     try {
       const res = await apiRequest.post("/posts", {
         postData: {
           title: inputs.title,
           price: parseInt(inputs.price),
+          address: inputs.address,
           city: inputs.city,
           bedroom: parseInt(inputs.bedroom),
           bathroom: parseInt(inputs.bathroom),
@@ -34,7 +34,7 @@ function NewPostPage() {
           images: images,
         },
         postDetail: {
-          description: value,
+          desc: value,
           utilities: inputs.utilities,
           pet: inputs.pet,
           income: inputs.income,
@@ -44,7 +44,7 @@ function NewPostPage() {
           restaurant: parseInt(inputs.restaurant),
         },
       });
-      navigate("/" + res.data.id);
+      navigate("/"+res.data.id)
     } catch (err) {
       console.log(err);
       setError(error);
@@ -65,10 +65,10 @@ function NewPostPage() {
               <label htmlFor="price">Price</label>
               <input id="price" name="price" type="number" />
             </div>
-            {/* <div className="item">
-              <label htmlFor="adress">Adress</label>
-              <input id="adress" name="adress" type="text" />
-            </div> */}
+            <div className="item">
+              <label htmlFor="address">Address</label>
+              <input id="address" name="address" type="text" />
+            </div>
             <div className="item description">
               <label htmlFor="desc">Description</label>
               <ReactQuill theme="snow" onChange={setValue} value={value} />
