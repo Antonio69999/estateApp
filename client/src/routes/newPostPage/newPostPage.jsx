@@ -11,7 +11,7 @@ function NewPostPage() {
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +23,6 @@ function NewPostPage() {
         postData: {
           title: inputs.title,
           price: parseInt(inputs.price),
-          address: inputs.address,
           city: inputs.city,
           bedroom: parseInt(inputs.bedroom),
           bathroom: parseInt(inputs.bathroom),
@@ -34,7 +33,7 @@ function NewPostPage() {
           images: images,
         },
         postDetail: {
-          desc: value,
+          description: value,
           utilities: inputs.utilities,
           pet: inputs.pet,
           income: inputs.income,
@@ -44,7 +43,7 @@ function NewPostPage() {
           restaurant: parseInt(inputs.restaurant),
         },
       });
-      navigate("/"+res.data.id)
+      navigate("/" + res.data.id);
     } catch (err) {
       console.log(err);
       setError(error);
@@ -65,12 +64,12 @@ function NewPostPage() {
               <label htmlFor="price">Price</label>
               <input id="price" name="price" type="number" />
             </div>
-            <div className="item">
+            {/* <div className="item">
               <label htmlFor="address">Address</label>
               <input id="address" name="address" type="text" />
-            </div>
+            </div> */}
             <div className="item description">
-              <label htmlFor="desc">Description</label>
+              <label htmlFor="description">Description</label>
               <ReactQuill theme="snow" onChange={setValue} value={value} />
             </div>
             <div className="item">
